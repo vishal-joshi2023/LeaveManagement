@@ -3,11 +3,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LeaveManagement.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<Employee>
     {
+        //This is bridge btwn what we wwant vs what c# can do
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
+
+        //Desing of the table based on leaveType
+        // Dbset<> collection Type
+        public DbSet<LeaveType> LeaveTypes { get; set; } 
+        public DbSet<LeaveAllocation> LeaveAllocations { get; set; }
     }
 }
