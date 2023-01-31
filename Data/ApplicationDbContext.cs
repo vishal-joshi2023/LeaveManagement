@@ -11,8 +11,9 @@ namespace LeaveManagement.Data
         {
         }
 
-        //Desing of the table based on leaveType
+        // Desing of the table based on leaveType
         // Dbset<> collection Type
+        // these are connected o Db  
         public DbSet<LeaveType> LeaveTypes { get; set; } 
         public DbSet<LeaveAllocation> LeaveAllocations { get; set; }
     }
