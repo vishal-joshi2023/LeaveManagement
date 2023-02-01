@@ -1,4 +1,5 @@
-﻿namespace LeaveManagement.Data
+﻿
+namespace LeaveManagement.Data
 {
     public class LeaveType : BaseEntity
     {
@@ -7,6 +8,6 @@
 
         public int DefaultDays { get; set; }
 
-     
+
     }
 }

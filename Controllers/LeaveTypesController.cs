@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LeaveManagement.Data;
+using AutoMapper;
+using LeaveManagement.Models;
 
 namespace LeaveManagement.Controllers
 {
@@ -14,25 +16,35 @@ namespace LeaveManagement.Controllers
          //Db copy
          private readonly ApplicationDbContext _context;
 
+
+        //<Mappering congig permission>
         // so any controller can access db we need a copy private <-- dependancy injection
         // for db connection
-        public LeaveTypesController(ApplicationDbContext context)
+        private readonly IMapper mapper;
+
+        public LeaveTypesController(ApplicationDbContext context , IMapper Vmapper)
         {
+            this.mapper = Vmapper;
             _context = context;
+           
         }
+
+
 
         //Actions on Db
 
         // GET: LeaveTypes
         public async Task<IActionResult> Index()
-        {
+        { 
             //MODEL
             // select * from leavesType 
             // _context(DB) -> leavetypes(table) 
-            var leaveTypes = await _context.LeaveTypes.ToListAsync();
+            
+            //Mapping leaveTypes -> LeavetypesVm
+            var lt = mapper.Map<List<LeaveTypeVM>>(await _context.LeaveTypes.ToListAsync());
            
             //View
-            return View(leaveTypes); 
+            return View(lt); 
         }
 
         // GET: LeaveTypes/Details/5
