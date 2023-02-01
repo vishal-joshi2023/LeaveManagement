@@ -75,16 +75,26 @@ namespace LeaveManagement.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken] 
-        public async Task<IActionResult> Create([Bind("Name,DefaultDays,Id,DateCreated,DateModified")] LeaveType leaveType)
+        [ValidateAntiForgeryToken]
+
+
+        //create([Bind("Name,DefaultDays,Id,DateCreated,DateModified")] ... )-> it is a filter - what comes and what needed (removed)
+
+        public async Task<IActionResult> Create(LeaveTypeVM leaveTypevm)
         {
-            if (ModelState.IsValid)
-            {
+            //if data ip req not match is ret false 
+            if (ModelState.IsValid){
+
+                //we cant add leaveTypevm to DB_Context like _context.Add(leaveTypevm);
+                //becz we dont have any db name leaveTypevm
+                //so again we auto map db then it works fine
+
+                var leaveType = mapper.Map<LeaveType>(leaveTypevm);
                 _context.Add(leaveType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(leaveType);
+            return View(leaveTypevm);
         }
 
         // GET: LeaveTypes/Edit/5
