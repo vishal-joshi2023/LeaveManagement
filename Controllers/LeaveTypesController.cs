@@ -16,12 +16,10 @@ namespace LeaveManagement.Controllers
          //Db copy
          private readonly ApplicationDbContext _context;
 
-
         //<Mappering congig permission>
         // so any controller can access db we need a copy private <-- dependancy injection
         // for db connection
         private readonly IMapper mapper;
-
         public LeaveTypesController(ApplicationDbContext context , IMapper Vmapper)
         {
             this.mapper = Vmapper;
@@ -29,10 +27,7 @@ namespace LeaveManagement.Controllers
            
         }
 
-
-
-        //Actions on Db
-
+         //Actions on Db
         // GET: LeaveTypes
         public async Task<IActionResult> Index()
         { 
@@ -47,6 +42,7 @@ namespace LeaveManagement.Controllers
             return View(lt); 
         }
 
+        
         // GET: LeaveTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -55,14 +51,17 @@ namespace LeaveManagement.Controllers
                 return NotFound();
             }
 
-            var leaveType = await _context.LeaveTypes.FirstOrDefaultAsync(m => m.Id == id);
-
+            var leaveType = await _context.LeaveTypes.FindAsync(id);
             if (leaveType == null)
             {
                 return NotFound();
             }
 
-            return View(leaveType);
+            //if all cond. is ok return LeaveTypeVM view
+            //map again
+            var leaveTypevm = mapper.Map<LeaveTypeVM>(leaveType);
+
+            return View(leaveTypevm);
         }
 
         // GET: LeaveTypes/Create
@@ -77,9 +76,7 @@ namespace LeaveManagement.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-
         //create([Bind("Name,DefaultDays,Id,DateCreated,DateModified")] ... )-> it is a filter - what comes and what needed (removed)
-
         public async Task<IActionResult> Create(LeaveTypeVM leaveTypevm)
         {
             //if data ip req not match is ret false 
@@ -97,6 +94,7 @@ namespace LeaveManagement.Controllers
             return View(leaveTypevm);
         }
 
+
         // GET: LeaveTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -110,17 +108,24 @@ namespace LeaveManagement.Controllers
             {
                 return NotFound();
             }
-            return View(leaveType);
+
+            //if all cond. is ok return LeaveTypeVM view
+            //map again
+            var leaveTypevm = mapper.Map<LeaveTypeVM>(leaveType);
+            
+            return View(leaveTypevm);
         }
+
+
 
         // POST: LeaveTypes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,DefaultDays,Id,DateCreated,DateModified")] LeaveType leaveType)
+        public async Task<IActionResult> Edit(int id,  LeaveTypeVM leaveTypevm)
         {
-            if (id != leaveType.Id)
+            if (id != leaveTypevm.Id)
             {
                 return NotFound();
             }
@@ -129,12 +134,14 @@ namespace LeaveManagement.Controllers
             {
                 try
                 {
+                    //mapping
+                    var leaveType = mapper.Map<LeaveType>(leaveTypevm);
                     _context.Update(leaveType);
                     await _context.SaveChangesAsync();
                 } 
                 catch (DbUpdateConcurrencyException)  // Db consistancy protection
                 {
-                    if (!LeaveTypeExists(leaveType.Id))
+                    if (!LeaveTypeExists(leaveTypevm.Id))
                     {
                         return NotFound();
                     }
@@ -145,8 +152,12 @@ namespace LeaveManagement.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(leaveType);
+            return View(leaveTypevm);
         }
+
+
+      
+
 
         // GET: LeaveTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)

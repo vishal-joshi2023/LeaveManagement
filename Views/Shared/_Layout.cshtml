@@ -56,12 +56,18 @@
 
     <footer class="border-top footer text-dark" style="background-color:#88B0D7;">
         <div class="container">
-            &copy; @DateTime.Now  -  Leave Management System - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; @DateTime.Now.Year  -  Leave Management System - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Added for deletion pop  up-->
+    <script src="~/lib/sweetalert/sweetalert.min.js"></script>
+
+
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+  

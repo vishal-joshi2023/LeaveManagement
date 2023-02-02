@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LeaveTypeVM>
+﻿  @model IEnumerable<LeaveTypeVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,7 +7,11 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <!-- modeified : convert link to button -->
+      <div class="form-group">
+        <a asp-action="Create" class="btn btn-primary" >Create New</a>
+    </div>
+
 </p>
 <table class="table">
     <thead>
@@ -33,11 +37,66 @@
             </td>
         
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+                <div class="form-group">
+                        <a asp-action="Edit" style="color:white" class="btn btn-warning" asp-route-id="@item.Id"> Edit </a>
+                        <a asp-action="Details" class="btn btn-primary" style="background-color:#4bb153" asp-route-id="@item.Id">Details</a>
+                       
+                        <!-- modeified : to button -->
+                        
+
+                        <!-- data-id : id->Id in form down ther -->
+                        <button data-id="@item.Id" class="btn btn-danger deleteBtn" type="button"> Delete </button>
+                        
+                </div>
+            </td> 
         </tr>
 }
     </tbody>
 </table>
+
+<!-- form from delete_view for performing operation [POST:Delete] -->
+<!-- performs delete opr behind the popup-->
+
+ <form id="DeleteForm"   asp-action="Delete">
+    <input type="hidden" id ="leaveTypeId" name="Id" />
+</form>
+
+<!-- Js rendering : sweet alert-->
+@section Scripts{
+    <script>
+
+        /* delet click events and action :-
+           .deleteBtn->class
+           fun(e) -> e event obj 
+           swal -> name of libfun in sweetalert script
+        */
+        $(function(){
+            $(".deleteBtn").click(function(e){
+                swal({
+                  title :"Are You Sure ?",
+                  text : "Are You Sure You Want To Delete This Record ?",
+                  icon: "warning",
+                  buttons: true,
+                  dangerMode:true 
+                  }).then((confirm) => {
+                          if(confirm)
+                           {
+                          
+                           var btn = $(this);
+                           /* "id" from idata-id="item.Id" */
+                           var id = btn.data("id");
+                           $('#leaveTypeId').val(id);
+                           /*once click submit contorl goes to leavetypeControler exe delete method */
+                           $('#DeleteForm').submit();
+                           
+                           
+                           } 
+                    }) ;
+                });
+            });
+         
+
+    </script>
+}
+
+        

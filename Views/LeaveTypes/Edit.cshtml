@@ -1,46 +1,53 @@
-﻿@model LeaveManagement.Data.LeaveType
+﻿<!-- modeified -->
+@model LeaveTypeVM
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h4>Edit Leave Type</h4>
 
-<h4>LeaveType</h4>
+
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <!-- modeified -->
+    <div class="col-md-8"> 
+
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <!-- modeified -->
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+
+            <br />
+
             <div class="form-group">
                 <label asp-for="DefaultDays" class="control-label"></label>
                 <input asp-for="DefaultDays" class="form-control" />
                 <span asp-validation-for="DefaultDays" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for="Id" />
+
+            <!-- modeified -->
+            <!-- making button for back to list -->
+            <br />
+
             <div class="form-group">
-                <label asp-for="DateCreated" class="control-label"></label>
-                <input asp-for="DateCreated" class="form-control" />
-                <span asp-validation-for="DateCreated" class="text-danger"></span>
+
+                <input type="submit" value="Save Changes" class="btn btn-warning" />
+                <a asp-action="Index" class="btn btn-primary"> Back to List </a>
             </div>
-            <div class="form-group">
-                <label asp-for="DateModified" class="control-label"></label>
-                <input asp-for="DateModified" class="form-control" />
-                <span asp-validation-for="DateModified" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+
+            <br />
+
+            <!-- edit needs id of data to be menuplated when hit save changes id pass to post edit  -->
+            <input type="hidden" asp-for="Id" /> 
+
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
