@@ -1,5 +1,7 @@
 using LeaveManagement.Configuration;
+using LeaveManagement.Contracts;
 using LeaveManagement.Data;
+using LeaveManagement.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,8 +23,12 @@ builder.Services.AddControllersWithViews();
 //<Implemented by me>
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 
+//AddTransient -> gave new copy of serviecs every time it injected/needed  (DB concurrency issue) 
+//AddSingleton -> only single instance of serviecs every time it injected/needed  (DB concurrency issue) 
+//AddSingleton -> (Transient + singleton) new instance of serviecs every time it injected/needed but auto destroyed if connec.close
 
-
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
 
 var app = builder.Build();
 
