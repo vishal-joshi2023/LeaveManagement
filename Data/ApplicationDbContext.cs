@@ -9,6 +9,7 @@ namespace LeaveManagement.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+
         }
 
         // Desing of the table based on leaveType
