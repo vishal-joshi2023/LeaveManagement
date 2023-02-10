@@ -1,4 +1,4 @@
-﻿using LeaveManagement.Contracts;
+﻿using LeaveManagement.Configuration.Contracts;
 using LeaveManagement.Data;
 
 namespace LeaveManagement.Repositories

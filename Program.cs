@@ -1,8 +1,10 @@
 using LeaveManagement.Configuration;
-using LeaveManagement.Contracts;
+using LeaveManagement.Configuration.Contracts;
 using LeaveManagement.Data;
 using LeaveManagement.Repositories;
+using LeaveManagement.Serivices;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +18,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<Employee>(options => options.SignIn.RequireConfirmedAccount = true)
+
+    /* <Implemented by me> Roles addition only */
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
@@ -29,6 +34,11 @@ builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
+
+// Email servic Configuration -> (ip or servername , defaultPort , From mailAddress)
+builder.Services.AddTransient<IEmailSender>(s => new EmailSender("localhost", 25 , "no-reply@leavemanagement.com"));
+
+
 
 var app = builder.Build();
 

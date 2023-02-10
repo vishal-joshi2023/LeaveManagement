@@ -66,6 +66,7 @@ namespace LeaveManagement.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
+        //OnGetAsync -> Razor Page Handler same as Actions in Controller
         public async Task OnGetAsync(string returnUrl = null)
         {
             if (!string.IsNullOrEmpty(ErrorMessage))

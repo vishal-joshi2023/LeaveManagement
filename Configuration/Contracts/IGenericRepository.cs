@@ -1,7 +1,7 @@
 ﻿using LeaveManagement.Data;
 
-namespace LeaveManagement.Contracts
-{    
+namespace LeaveManagement.Configuration.Contracts
+{
     //Handling basic crud opr
     //This is for elemenating all duplicate codes -> inhritance imp.
     // Migrate leaveTypeController --> Repo.GenericClass Which implements this interface  
@@ -15,7 +15,7 @@ namespace LeaveManagement.Contracts
         Task<bool> Exists(int id);
 
         //No return 
-        Task DeleteAsync(int id);   
+        Task DeleteAsync(int id);
         Task UpdateAsync(T entity);
     }
 }

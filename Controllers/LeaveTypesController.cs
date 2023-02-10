@@ -8,13 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using LeaveManagement.Data;
 using AutoMapper;
 using LeaveManagement.Models;
-using LeaveManagement.Contracts;
 using LeaveManagement.Repositories;
+using LeaveManagement.Configuration.Contracts;
+using Microsoft.AspNetCore.Authorization;
+using LeaveManagement.Configuration.StringsRoles;
 
 
 // controller ab direct db se nhi juda hai repo ke throught op performed
 namespace LeaveManagement.Controllers
 {
+    // User redirect to login page if not Logedin  [Authorize]
+    // only Admin can create or Update leaves  [Authorize(Roles ="Administrator ")]
+
+    [Authorize(Roles = Role.Admin)]
     public class LeaveTypesController : Controller
     {
 
