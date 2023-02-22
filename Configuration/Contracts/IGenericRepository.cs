@@ -12,8 +12,8 @@ namespace LeaveManagement.Configuration.Contracts
         Task<T> GetAsync(int? id); //get by id specific
         Task<List<T>> GetAllAsync(); // get all in list
         Task<T> AddAsync(T entity);
+        Task AddRangeAsync(List<T> entities); // accepts list of entity return nothing
         Task<bool> Exists(int id);
-
         //No return 
         Task DeleteAsync(int id);
         Task UpdateAsync(T entity);

@@ -20,13 +20,19 @@ namespace LeaveManagement.Repositories
         public async Task<T> AddAsync(T entity)
         {
             //before add entity has no 
-            await context.AddAsync(entity); 
+            await context.AddAsync(entity);
             await context.SaveChangesAsync();
-            
+
             //return entity with id
             return entity;
-        }
+        } 
+        public async Task AddRangeAsync(List<T> entities)
+        {
+            await context.AddRangeAsync(entities);
+            await context.SaveChangesAsync();
+            //return nothing
 
+        }
 
         //leaveType -> Set<T>() why bcz input from any table excepted not leaveType
         public async Task<T?> GetAsync(int? id)
@@ -66,5 +72,7 @@ namespace LeaveManagement.Repositories
             context.Update(entity);
             await context.SaveChangesAsync();
         }
+
+       
     }
 }

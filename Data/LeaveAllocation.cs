@@ -6,15 +6,18 @@ namespace LeaveManagement.Data
     {
        
 
-        //Foreign key mapping
+        // Foreign key mapping
         public int NumberOfDays { get; set; }
 
         [ForeignKey("LeaveTypeId")]
         public LeaveType LeaveType { get; set; }
         public int LeaveTypeId { get; set; }     //Foreign key 
 
-        //Actual allocation
+        // Actual allocation
         public string EmployeeId { get; set; }
 
+        // set a Period(like year)
+        public int Period { get; set; } 
+  
     }
 }

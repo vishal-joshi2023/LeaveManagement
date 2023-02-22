@@ -45,7 +45,7 @@
 
                         <!-- Updated -->
                         <!-- Only Admin can view -->
-                        @if (User.IsInRole("Administrator"))
+                        @if (User.IsInRole(Role.Admin))
                         {
                             <li class="nav-item dropdown">
                                 <button class="btn btn-#88B100D7 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

@@ -12,6 +12,7 @@ using LeaveManagement.Repositories;
 using LeaveManagement.Configuration.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using LeaveManagement.Configuration.StringsRoles;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 
 // controller ab direct db se nhi juda hai repo ke throught op performed
@@ -26,21 +27,25 @@ namespace LeaveManagement.Controllers
 
         // private readonly ApplicationDbContext _context; migrate  to  
 
-
         // new Ref of Db
         public readonly ILeaveTypeRepository leaveTypeRepository;
-
 
         // <Mappering congig permission>
         // so any controller can access db we need a copy private <-- dependancy injection
         // for db connection
         private readonly IMapper mapper;
 
+        //For leave allocation
+        private readonly ILeaveAllocationRepository leaveAllocationRepository;
 
-        public LeaveTypesController(ILeaveTypeRepository leaveTypeRepository, IMapper mapper)
+
+       public LeaveTypesController(ILeaveTypeRepository leaveTypeRepository, 
+                                   IMapper mapper ,
+                                   ILeaveAllocationRepository leaveAllocationRepository)
         {
             // _context = context;
             this.leaveTypeRepository = leaveTypeRepository;
+            this.leaveAllocationRepository = leaveAllocationRepository;
             this.mapper = mapper;
 
 
@@ -170,6 +175,19 @@ namespace LeaveManagement.Controllers
             await leaveTypeRepository.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
+
+
+
+        // POST: LeaveTypes/Leave Allocation /5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AllocateLeave(int id)
+        {
+            await leaveAllocationRepository.LeaveAllocation(id);
+          
+            return RedirectToAction(nameof(Index)); // Redirect to index page
+        }
+
 
         //convert simple bool -> async but this retun to Edit fun so noneed for this
         /*

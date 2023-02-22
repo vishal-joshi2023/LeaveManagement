@@ -38,6 +38,8 @@ builder.Services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
 // Email servic Configuration -> (ip or servername , defaultPort , From mailAddress)
 builder.Services.AddTransient<IEmailSender>(s => new EmailSender("localhost", 25 , "no-reply@leavemanagement.com"));
 
+// Leave Allocation To Employees by admin
+builder.Services.AddScoped<ILeaveAllocationRepository, LeaveAllocationRepository>();
 
 
 var app = builder.Build();
